@@ -3,6 +3,5 @@
 namespace tml 
 {
 
-void hello_world();
 
 }
