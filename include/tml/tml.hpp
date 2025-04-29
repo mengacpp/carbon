@@ -10,4 +10,6 @@
 
 #endif
 
+#include "core.hpp"
+
 #include "cursor.hpp"

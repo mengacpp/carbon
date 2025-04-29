@@ -3,5 +3,6 @@
 namespace tml 
 {
 
+void clear();
 
 }
