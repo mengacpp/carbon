@@ -6,6 +6,7 @@
 build/
 test/
 *.sh
+*.bat
 
 ### CMake ###
 CMakeLists.txt.user

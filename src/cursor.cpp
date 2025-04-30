@@ -9,9 +9,10 @@
     #include <termios.h>
     #include <cstdio>
     #include <cstdlib>
+#include "cursor.hpp"
 #endif
 
-static const std::string S_HOME = "\033[H";
+static bool s_is_visible = true;
 
 void tml::cursor::move_home()
 {
@@ -110,4 +111,31 @@ tml::Vector2 tml::cursor::get_pos()
 #endif
 
     return vec;
+}
+
+void tml::cursor::save_pos()
+{
+    std::cout << "\033[s";
+}
+
+void tml::cursor::restore_pos()
+{
+    std::cout << "\033[u";
+}
+
+void tml::cursor::show()
+{
+    std::cout << "\033[?25h";
+    s_is_visible = true;
+}
+
+void tml::cursor::hide()
+{
+    std::cout << "\033[?25l";
+    s_is_visible = false;
+}
+
+bool tml::cursor::is_visible()
+{
+    return s_is_visible;
 }
