@@ -1,9 +1,9 @@
-#include "tml/core.hpp"
-#include "tml/cursor.hpp"
+#include "carbon/core.hpp"
+#include "carbon/cursor.hpp"
 
 #include <iostream>
 
-void tml::clear()
+void carbon::clear()
 {
     //TODO use custom cout instead of normal one
     

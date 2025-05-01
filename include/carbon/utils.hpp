@@ -1,6 +1,6 @@
 #pragma once
 
-namespace tml
+namespace carbon
 {
     struct Vector2
     {

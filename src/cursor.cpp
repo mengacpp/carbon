@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "tml/cursor.hpp"
+#include "carbon/cursor.hpp"
 
 #ifdef _WIN32
     #include <windows.h>
@@ -9,33 +9,32 @@
     #include <termios.h>
     #include <cstdio>
     #include <cstdlib>
-#include "cursor.hpp"
 #endif
 
 static bool s_is_visible = true;
 
-void tml::cursor::move_home()
+void carbon::cursor::move_home()
 {
     move_to(0,0);
 }
 
-void tml::cursor::move_to(int col, int row)
+void carbon::cursor::move_to(int col, int row)
 {
     std::cout << "\033[" << row << ";" << col << "H";
     std::cout.flush();
 }
 
-void tml::cursor::move_to_col(int col)
+void carbon::cursor::move_to_col(int col)
 {
     move_to(col, get_pos().y);
 }
 
-void tml::cursor::move_to_row(int row)
+void carbon::cursor::move_to_row(int row)
 {
     move_to(get_pos().x, row);
 }
 
-void tml::cursor::move_by(int col, int row)
+void carbon::cursor::move_by(int col, int row)
 {
     char dir;
 
@@ -57,7 +56,7 @@ void tml::cursor::move_by(int col, int row)
 
 }
 
-tml::Vector2 tml::cursor::get_pos()
+carbon::Vector2 carbon::cursor::get_pos()
 {
     Vector2 vec;
 #ifdef _WIN32
@@ -113,29 +112,29 @@ tml::Vector2 tml::cursor::get_pos()
     return vec;
 }
 
-void tml::cursor::save_pos()
+void carbon::cursor::save_pos()
 {
     std::cout << "\033[s";
 }
 
-void tml::cursor::restore_pos()
+void carbon::cursor::restore_pos()
 {
     std::cout << "\033[u";
 }
 
-void tml::cursor::show()
+void carbon::cursor::show()
 {
     std::cout << "\033[?25h";
     s_is_visible = true;
 }
 
-void tml::cursor::hide()
+void carbon::cursor::hide()
 {
     std::cout << "\033[?25l";
     s_is_visible = false;
 }
 
-bool tml::cursor::is_visible()
+bool carbon::cursor::is_visible()
 {
     return s_is_visible;
 }

@@ -2,11 +2,11 @@
 
 #if defined(_WIN32) || defined(__APPLE__)
 
-    #define TML
+    #define CRBN
 
 #else
 
-    #warning TML not tested on this platform. The library might not work as expected.
+    #warning Carbon not tested on this platform. The library might not work as expected.
 
 #endif
 
