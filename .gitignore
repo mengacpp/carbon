@@ -4,9 +4,11 @@
 ### Custom ###
 
 build/
+.cache/
 test/
 *.sh
 *.bat
+.clang-format
 
 ### CMake ###
 CMakeLists.txt.user
