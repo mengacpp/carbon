@@ -3,20 +3,17 @@
 #include "carbon/cursor.hpp"
 
 #ifdef _WIN32
-    #include <windows.h>
+#include <windows.h>
 #else
-    #include <unistd.h>
-    #include <termios.h>
-    #include <cstdio>
-    #include <cstdlib>
+#include <cstdio>
+#include <cstdlib>
+#include <termios.h>
+#include <unistd.h>
 #endif
 
 static bool s_is_visible = true;
 
-void carbon::cursor::move_home()
-{
-    move_to(0,0);
-}
+void carbon::cursor::move_home() { move_to(0, 0); }
 
 void carbon::cursor::move_to(int col, int row)
 {
@@ -24,36 +21,27 @@ void carbon::cursor::move_to(int col, int row)
     std::cout.flush();
 }
 
-void carbon::cursor::move_to_col(int col)
-{
-    move_to(col, get_pos().y);
-}
+void carbon::cursor::move_to_col(int col) { move_to(col, get_pos().y); }
 
-void carbon::cursor::move_to_row(int row)
-{
-    move_to(get_pos().x, row);
-}
+void carbon::cursor::move_to_row(int row) { move_to(get_pos().x, row); }
 
 void carbon::cursor::move_by(int col, int row)
 {
     char dir;
 
-    if(col != 0)
+    if (col != 0)
     {
         dir = col > 0 ? 'C' : 'D';
         std::cout << "\033[" << std::abs(col) << dir;
-
     }
 
-    if(row != 0)
+    if (row != 0)
     {
         dir = row > 0 ? 'B' : 'A';
         std::cout << "\033[" << std::abs(row) << dir;
-
     }
 
     std::cout.flush();
-
 }
 
 carbon::Vector2 carbon::cursor::get_pos()
@@ -64,23 +52,23 @@ carbon::Vector2 carbon::cursor::get_pos()
     CONSOLE_SCREEN_BUFFER_INFO info;
     if (!GetConsoleScreenBufferInfo(h, &info))
     {
-        //error
+        // error
         return vec;
     }
-    vec.x = info.dwCursorPosition.X + 1;  // X is 0-based
-    vec.y = info.dwCursorPosition.Y + 1;  // Y is 0-based
+    vec.x = info.dwCursorPosition.X + 1; // X is 0-based
+    vec.y = info.dwCursorPosition.Y + 1; // Y is 0-based
 #else
     struct termios orig, raw;
     if (tcgetattr(STDIN_FILENO, &orig) == -1)
     {
-        //error
+        // error
         return vec;
     }
     raw = orig;
     raw.c_lflag &= ~(ICANON | ECHO);
     if (tcsetattr(STDIN_FILENO, TCSANOW, &raw) == -1)
     {
-        //error
+        // error
         return vec;
     }
 
@@ -90,12 +78,15 @@ carbon::Vector2 carbon::cursor::get_pos()
     // Read “ESC [ row ; col R”
     char buf[32] = {};
     size_t i = 0;
-    while (i < sizeof(buf) - 1) {
-        if (read(STDIN_FILENO, buf + i, 1) != 1) break;
-        if (buf[i] == 'R') break;
+    while (i < sizeof(buf) - 1)
+    {
+        if (read(STDIN_FILENO, buf + i, 1) != 1)
+            break;
+        if (buf[i] == 'R')
+            break;
         ++i;
     }
-    buf[i+1] = '\0';
+    buf[i + 1] = '\0';
 
     // Restore
     tcsetattr(STDIN_FILENO, TCSANOW, &orig);
@@ -103,7 +94,7 @@ carbon::Vector2 carbon::cursor::get_pos()
     // Parse
     if (sscanf(buf, "\033[%d;%dR", &vec.y, &vec.x) != 2)
     {
-        //error
+        // error
         return vec;
     }
 
@@ -112,15 +103,9 @@ carbon::Vector2 carbon::cursor::get_pos()
     return vec;
 }
 
-void carbon::cursor::save_pos()
-{
-    std::cout << "\033[s";
-}
+void carbon::cursor::save_pos() { std::cout << "\033[s"; }
 
-void carbon::cursor::restore_pos()
-{
-    std::cout << "\033[u";
-}
+void carbon::cursor::restore_pos() { std::cout << "\033[u"; }
 
 void carbon::cursor::show()
 {
@@ -134,7 +119,4 @@ void carbon::cursor::hide()
     s_is_visible = false;
 }
 
-bool carbon::cursor::is_visible()
-{
-    return s_is_visible;
-}
+bool carbon::cursor::is_visible() { return s_is_visible; }

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace carbon 
+namespace carbon
 {
 
 void clear();
